@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bharat AI - GPT Chatbot</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
+    h2 { color: #333; }
+    #chat { background: #fff; border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; }
+    #input { width: 80%; padding: 10px; margin-top: 10px; }
+    #send { padding: 10px 20px; background: #007BFF; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>🇮🇳 Bharat AI – ChatGPT Powered</h2>
+  <div id="chat"></div>
+  <input type="text" id="input" placeholder="Type your message..." />
+  <button id="send">Send</button>
+
+  <script>
+    document.getElementById('send').onclick = async () => {
+      const input = document.getElementById('input');
+      const message = input.value;
+      if (!message) return;
+
+      document.getElementById('chat').innerHTML += `<b>You:</b> ${message}<br>`;
+      input.value = '';
+
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: message })
+      });
+
+      const data = await res.json();
+      document.getElementById('chat').innerHTML += `<b>Bharat AI:</b> ${data.response}<br>`;
+    };
+  </script>
+</body>
+</html>
